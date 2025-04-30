@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import { NotFoundError } from "../utils/errors/app.error";
 
 export const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
+    throw new NotFoundError("User not found"); //just for testing
     res.status(StatusCodes.OK).json({
         message: "get all users controller response",
     });
