@@ -14,3 +14,10 @@ export const createUserSchema = z.object({
         invalid_type_error: "Role must be either 'user' or 'admin'",
     })
 });
+
+export const updateUserSchema = z.object({
+    name: z.string().min(1, "Name is required"),
+    phone: z.string().regex(e164PhoneRegex, "Phone number must be in E.164 format"),
+    password: z.string().regex(strongPasswordRegex, "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character"),
+    
+}).partial();

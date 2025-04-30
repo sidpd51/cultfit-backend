@@ -13,3 +13,10 @@ export const createUser = (req: Request, res: Response, next: NextFunction) => {
         data: req.body
     });
 }
+
+export const updateUser = (req: Request, res: Response, next: NextFunction) => {
+    res.status(StatusCodes.OK).json({
+        message: "update user controller response",
+        data: req.body
+    });
+}
