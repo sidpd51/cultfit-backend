@@ -1,4 +1,5 @@
 import winston from "winston";
+import { getCorrelationId } from "../utils/helpers/request.helpers";
 const { format, transports, addColors, createLogger } = winston;
 const { combine, timestamp, errors, printf, colorize } = format;
 
@@ -31,7 +32,7 @@ export const logger = createLogger({
         timestamp(),
         errors({ stack: true }),
         printf(({ level, message, timestamp }) => {
-            return `${timestamp} [${level}] ${message}`;
+            return `${timestamp} [${level}] [correlationid:${getCorrelationId()}] ${message} `;
         })
     ),
     transports: [

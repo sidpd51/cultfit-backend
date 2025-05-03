@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { NotFoundError } from "../utils/errors/app.error";
 import { logger } from "../config/logger.config";
+import { NotFoundError } from "../utils/errors/app.error";
 
 export const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
     logger.info("get all users controller");
