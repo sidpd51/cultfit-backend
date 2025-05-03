@@ -5,8 +5,8 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare id: CreationOptional<number>;
     declare name: string;
     declare email: string;
-    declare phoneNumber: CreationOptional<string>;
-    declare password: CreationOptional<string>;
+    declare phoneNumber?: string;
+    declare password: string;
     declare strikeCount: CreationOptional<number>;
     declare noStrikeCount: CreationOptional<number>;
     declare bannedUntil: CreationOptional<Date>;
@@ -22,7 +22,7 @@ User.init({
     },
     name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
     },
     email: {
         type: DataTypes.STRING,
