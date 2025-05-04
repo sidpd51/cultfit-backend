@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { logger } from "../config/logger.config";
-import { createUserService } from "../service/user.service";
-import { InternalServerError, NotFoundError } from "../utils/errors/app.error";
+import { createUserService, deleteUserService } from "../service/user.service";
+import { BadRequestError, InternalServerError, NotFoundError } from "../utils/errors/app.error";
 
-export const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
+export const getAllUsersHandler = (req: Request, res: Response, next: NextFunction) => {
     logger.info("get all users controller");
     throw new NotFoundError("User not found"); //just for testing
     res.status(StatusCodes.OK).json({
@@ -15,7 +15,6 @@ export const getAllUsers = (req: Request, res: Response, next: NextFunction) => 
 export const createUserHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await createUserService(req.body);
-        console.log("user controller: ", user);
         res.status(StatusCodes.CREATED).json({
             message: "User created successfully",
             success: true,
@@ -34,9 +33,42 @@ export const createUserHandler = async (req: Request, res: Response, next: NextF
     }
 }
 
-export const updateUser = (req: Request, res: Response, next: NextFunction) => {
+export const updateUserHandler = (req: Request, res: Response, next: NextFunction) => {
     res.status(StatusCodes.OK).json({
         message: "update user controller response",
         data: req.body
     });
+}
+
+export const deleteUserHandler = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId: number = Number(req.params.id);
+        if(!userId) {
+            throw new BadRequestError("User id should be a number");
+        }
+        await deleteUserService(userId);
+        res.status(StatusCodes.OK).json({
+            message: `User with id ${userId} deleted successfully`,
+            success: true,
+            data: {}
+        });
+
+    } catch (error) {
+        if (error instanceof BadRequestError) {
+            logger.error(`Error in delete user controller, ${error.message}`);
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        }
+        if (error instanceof NotFoundError) {
+            logger.error(`Error in delete user controller, ${error.message}`);
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        }
+    }
 }

@@ -12,6 +12,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare bannedUntil: CreationOptional<Date>;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
+    declare deletedAt: CreationOptional<Date>;
 }
 
 User.init({
@@ -68,12 +69,18 @@ User.init({
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: DataTypes.NOW
+    },
+    deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
     }
 }, {
     sequelize: sequelize,
     tableName: "users",
     timestamps: true,
     underscored: true,
+    paranoid: true,
 })
 
 export default User;

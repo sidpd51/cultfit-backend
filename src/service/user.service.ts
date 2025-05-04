@@ -1,5 +1,5 @@
 import { createUserDto } from "../dto/user.dto";
-import { createUser } from "../repositories/user.repository";
+import { createUser, deleteUser } from "../repositories/user.repository";
 
 export const createUserService = async (user: createUserDto) => {
     try {
@@ -11,3 +11,10 @@ export const createUserService = async (user: createUserDto) => {
     }
 }
 
+export const deleteUserService = async (userId: number) => {
+    try {
+        await deleteUser(userId);
+    } catch (error) {
+        throw error
+    }
+}
