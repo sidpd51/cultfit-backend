@@ -81,6 +81,6 @@ User.init({
     timestamps: true,
     underscored: true,
     paranoid: true,
-})
+});
 
 export default User;
