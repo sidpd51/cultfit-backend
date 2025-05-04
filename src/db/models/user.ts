@@ -1,5 +1,6 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import sequelize from "./sequelize";
+type UserRole = 'user' | 'admin';
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare id: CreationOptional<number>;
@@ -7,6 +8,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare email: string;
     declare phoneNumber?: string;
     declare password: string;
+    declare role: CreationOptional<UserRole>;
     declare strikeCount: CreationOptional<number>;
     declare noStrikeCount: CreationOptional<number>;
     declare bannedUntil: CreationOptional<Date>;
@@ -44,6 +46,11 @@ User.init({
     password: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    role: {
+        type: DataTypes.ENUM('user','admin'),
+        allowNull: false,
+        defaultValue: 'user'
     },
     strikeCount: {
         type: DataTypes.INTEGER,
