@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
 
 type ServiceType = {
     PORT: number;
@@ -16,7 +17,8 @@ type DbConfigType = {
     DB_USER: string,
     DB_PASSWORD: string,
     DB_NAME: string,
-    DB_PORT: number
+    DB_PORT: number,
+    SALT: string
 }
 
 export const serverConfig: ServiceType = {
@@ -28,5 +30,6 @@ export const dbConfig:DbConfigType = {
     DB_USER: process.env.DB_USER || 'root',
     DB_PASSWORD: process.env.DB_PASSWORD || 'root@123',
     DB_NAME: process.env.DB_NAME || 'cultfit_dev',
-    DB_PORT: Number(process.env.DB_PORT) || 3306
+    DB_PORT: Number(process.env.DB_PORT) || 3306,
+    SALT: bcrypt.genSaltSync(10)
 }

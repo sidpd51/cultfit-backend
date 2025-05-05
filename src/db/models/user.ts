@@ -1,5 +1,7 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import sequelize from "./sequelize";
+import bcrypt from 'bcrypt';
+import { dbConfig } from '../../config/index';
 type UserRole = 'user' | 'admin';
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
@@ -48,7 +50,7 @@ User.init({
         allowNull: false,
     },
     role: {
-        type: DataTypes.ENUM('user','admin'),
+        type: DataTypes.ENUM('user', 'admin'),
         allowNull: false,
         defaultValue: 'user'
     },
@@ -89,5 +91,10 @@ User.init({
     underscored: true,
     paranoid: true,
 });
+
+User.beforeCreate((user) => {
+    const encryptedPassword = bcrypt.hashSync(user.password, dbConfig.SALT);
+    user.password = encryptedPassword;
+})
 
 export default User;
