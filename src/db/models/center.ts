@@ -1,8 +1,7 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
-import User from "./user";
 import sequelize from "./sequelize";
 
-class Center extends Model<InferAttributes<Center>, InferCreationAttributes<User>> {
+class Center extends Model<InferAttributes<Center>, InferCreationAttributes<Center>> {
     declare id: CreationOptional<number>;
     declare name: string;
     declare location: string;
@@ -20,10 +19,11 @@ Center.init({
     name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true
     },
     location: {
-        type: DataTypes.TEXT,
-        allowNull: true
+        type: DataTypes.STRING,
+        allowNull: false
     },
     createdAt: {
         type: DataTypes.DATE,

@@ -8,7 +8,7 @@ module.exports = {
     await queryInterface.sequelize.query(`
     CREATE TABLE IF NOT EXISTS centers (
       id SERIAL PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
+      name VARCHAR(255) NOT NULL UNIQUE,
       location TEXT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

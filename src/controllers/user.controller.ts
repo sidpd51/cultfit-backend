@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { logger } from "../config/logger.config";
-import { createUserService, deleteUserService } from "../service/user.service";
+import { createUserService, destroyUserService } from "../service/user.service";
 import { BadRequestError, InternalServerError, NotFoundError } from "../utils/errors/app.error";
 
 export const getAllUsersHandler = (req: Request, res: Response, next: NextFunction) => {
@@ -40,13 +40,13 @@ export const updateUserHandler = (req: Request, res: Response, next: NextFunctio
     });
 }
 
-export const deleteUserHandler = async (req: Request, res: Response, next: NextFunction) => {
+export const destroyUserHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId: number = Number(req.params.id);
         if(!userId) {
             throw new BadRequestError("User id should be a number");
         }
-        await deleteUserService(userId);
+        await destroyUserService(userId);
         res.status(StatusCodes.OK).json({
             message: `User with id ${userId} deleted successfully`,
             success: true,
