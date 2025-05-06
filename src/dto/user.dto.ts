@@ -6,6 +6,6 @@ export type createUserDto = {
 };
 
 export type signInDto = {
-    email: string,
+    email: string;
     password: string;
 }

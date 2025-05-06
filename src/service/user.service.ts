@@ -69,3 +69,15 @@ export const signInService = async (payload: signInDto) => {
         throw error;
     }
 }
+
+export const isAdminService = async (email: string) => {
+    try {
+        const user = await getUserByEmail(email);
+        if (user?.role === 'admin') {
+            return true;
+        }
+        return false
+    } catch (error) {
+        throw new InternalServerError("Something went wrong while getting user")
+    }
+}
