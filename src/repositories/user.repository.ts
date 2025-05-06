@@ -26,3 +26,19 @@ export const destroyUser = async (userId: number) => {
         throw error;
     }
 }
+
+export const getUserByEmail = async (email: string) => {
+    try {
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        });
+        if (!user) {
+            throw new NotFoundError(`user with email:${email} not found`);
+        }
+        return user;
+    } catch (error) {
+        throw error;
+    }
+}

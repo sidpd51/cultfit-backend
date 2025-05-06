@@ -4,3 +4,8 @@ export type createUserDto = {
     phoneNumber: string;
     password: string;
 };
+
+export type signInDto = {
+    email: string,
+    password: string;
+}

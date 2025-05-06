@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUserHandler, destroyUserHandler, getAllUsersHandler, updateUserHandler } from '../../controllers/user.controller';
+import { createUserHandler, destroyUserHandler, getAllUsersHandler, signInHandler, updateUserHandler } from '../../controllers/user.controller';
 import { validateRequetBody } from '../../validators';
 import { createUserSchema, updateUserSchema } from '../../validators/user.validator';
 

@@ -92,8 +92,8 @@ User.init({
     paranoid: true,
 });
 
-User.beforeCreate((user) => {
-    const encryptedPassword = bcrypt.hashSync(user.password, dbConfig.SALT);
+User.beforeCreate(async (user) => {
+    const encryptedPassword = await bcrypt.hash(user.password, dbConfig.SALT);
     user.password = encryptedPassword;
 })
 
