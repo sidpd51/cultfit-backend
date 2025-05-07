@@ -16,7 +16,7 @@ export const authenticationMiddleware = async (req: Request, res: Response, next
             });
         }
         const decoded = await verifyToken(token) as signInDto;
-        req.user = decoded;
+        req.headers["x-email"] = decoded.email;
         next();
     } catch (error) {
         if (error instanceof UnauthorizedError) {

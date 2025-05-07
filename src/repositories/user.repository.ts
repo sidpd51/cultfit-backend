@@ -39,6 +39,9 @@ export const getUserByEmail = async (email: string) => {
         }
         return user;
     } catch (error) {
-        throw error;
+        if(error instanceof NotFoundError){
+            throw error;
+        }
+        throw new InternalServerError("Something went wrong while getting user")
     }
 }

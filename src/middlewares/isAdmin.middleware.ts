@@ -5,13 +5,16 @@ import { InternalServerError, NotFoundError } from "../utils/errors/app.error";
 
 export const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const email = req.user?.email;
+        const rawEmail = req.headers["x-email"];
+        const email = Array.isArray(rawEmail) ? rawEmail[0] : rawEmail;
+
         const result = await isAdminService(email);
         if (result) {
             next()
         }
-        res.status(StatusCodes.CREATED).json({
-            message: "User created successfully",
+
+        res.status(StatusCodes.FORBIDDEN).json({
+            message: "",
             success: false,
             data: {}
         });

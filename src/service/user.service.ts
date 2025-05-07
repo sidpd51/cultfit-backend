@@ -70,14 +70,17 @@ export const signInService = async (payload: signInDto) => {
     }
 }
 
-export const isAdminService = async (email: string) => {
+export const isAdminService = async (email: string | undefined) => {
     try {
+        if (!email) {
+            throw new InternalServerError("Something went wrong while getting user");
+        }
         const user = await getUserByEmail(email);
         if (user?.role === 'admin') {
             return true;
         }
         return false
     } catch (error) {
-        throw new InternalServerError("Something went wrong while getting user")
+        throw error;
     }
 }
