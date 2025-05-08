@@ -9,15 +9,17 @@ export const isAdmin = async (req: Request, res: Response, next: NextFunction) =
         const email = Array.isArray(rawEmail) ? rawEmail[0] : rawEmail;
 
         const result = await isAdminService(email);
+        console.log(result)
         if (result) {
             next()
+        } else {
+            res.status(StatusCodes.FORBIDDEN).json({
+                message: "You are not authorized to access this resource.",
+                success: false,
+                data: {}
+            });
         }
 
-        res.status(StatusCodes.FORBIDDEN).json({
-            message: "",
-            success: false,
-            data: {}
-        });
     } catch (error) {
         if (error instanceof InternalServerError) {
             res.status(error.statusCode).json({
