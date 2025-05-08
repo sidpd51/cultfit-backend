@@ -1,7 +1,7 @@
 import { UniqueConstraintError, ValidationError } from "sequelize";
 import CenterHoliday from "../db/models/center_holiday";
 import { createHolidayDto } from "../dto/centerHoliday.dto";
-import { BadRequestError, InternalServerError } from "../utils/errors/app.error";
+import { BadRequestError, InternalServerError, NotFoundError } from "../utils/errors/app.error";
 
 export const createCenterHoliday = async (holiday: createHolidayDto) => {
     try {
@@ -19,5 +19,23 @@ export const createCenterHoliday = async (holiday: createHolidayDto) => {
     }
 }
 
+export const destroyCenterHoliday = async (holidayId: number) => {
+    try {
+
+        const deletedCenter = await CenterHoliday.destroy({
+            where: {
+                id: holidayId
+            }
+        });
+        if (!deletedCenter) {
+            throw new NotFoundError("Center holiday not found");
+        }
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error;
+        }
+        throw new InternalServerError("Something went wrong while deleting center holiday");
+    }
+}
 
 
