@@ -1,6 +1,5 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import sequelize from "./sequelize";
-import CenterHoliday from "./center_holiday";
 
 class Center extends Model<InferAttributes<Center>, InferCreationAttributes<Center>> {
     declare id: CreationOptional<number>;
@@ -9,6 +8,13 @@ class Center extends Model<InferAttributes<Center>, InferCreationAttributes<Cent
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
     declare deletedAt: CreationOptional<Date>;
+
+    static associate(models: any){
+        Center.hasMany(models.CenterHoliday,{
+            foreignKey: 'centerId',
+            as: 'center_holidays'
+        })
+    }
 }
 
 Center.init({
@@ -49,9 +55,6 @@ Center.init({
     paranoid: true,
 })
 
-Center.hasMany(CenterHoliday,{
-    foreignKey: 'centerId',
-    as: 'center_holidays'
-})
+
 
 export default Center;

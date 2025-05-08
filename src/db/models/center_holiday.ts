@@ -10,6 +10,13 @@ class CenterHoliday extends Model<InferAttributes<CenterHoliday>, InferCreationA
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
     declare deletedAt: CreationOptional<Date>;
+
+    static associate(models: any) {
+        CenterHoliday.belongsTo(Center, {
+            foreignKey: 'centerId',
+            as: 'center'
+        })
+    }
 }
 
 CenterHoliday.init({
@@ -57,9 +64,6 @@ CenterHoliday.init({
     paranoid: true,
 });
 
-CenterHoliday.belongsTo(Center,{
-    foreignKey: 'centerId',
-    as: 'center'
-})
+
 
 export default CenterHoliday;

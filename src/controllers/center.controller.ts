@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { logger } from "../config/logger.config";
-import { BadRequestError, InternalServerError, NotFoundError } from "../utils/errors/app.error";
-import { createCenterService, destroyCenterService, getCenterByIdService, updateCenterService } from "../service/center.service";
 import { StatusCodes } from "http-status-codes";
+import { logger } from "../config/logger.config";
 import { getAllCenters } from "../repositories/center.repository";
+import { createCenterService, destroyCenterService, getCenterByIdService, updateCenterService } from "../service/center.service";
+import { BadRequestError, InternalServerError, NotFoundError } from "../utils/errors/app.error";
 
 export const createCenterHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -116,6 +116,14 @@ export const getAllCentersHandler = async (req: Request, res: Response, next: Ne
         });
     } catch (error) {
         if (error instanceof InternalServerError) {
+            logger.error(`Error in getAllCentersHandler, ${error.message}`);
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        }
+        if (error instanceof NotFoundError) {
             logger.error(`Error in getAllCentersHandler, ${error.message}`);
             res.status(error.statusCode).json({
                 message: error.message,
