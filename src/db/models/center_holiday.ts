@@ -1,29 +1,37 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import sequelize from "./sequelize";
-import CenterHoliday from "./center_holiday";
+import Center from "./center";
 
-class Center extends Model<InferAttributes<Center>, InferCreationAttributes<Center>> {
+class CenterHoliday extends Model<InferAttributes<CenterHoliday>, InferCreationAttributes<CenterHoliday>> {
     declare id: CreationOptional<number>;
-    declare name: string;
-    declare location: string;
+    declare centerId: number;
+    declare holidayDate: Date;
+    declare reason: string;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
     declare deletedAt: CreationOptional<Date>;
 }
 
-Center.init({
+CenterHoliday.init({
     id: {
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
         primaryKey: true
     },
-    name: {
-        type: DataTypes.STRING,
+    centerId: {
+        type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
-        unique: true
+        references: {
+            model: 'centers',
+            key: 'id'
+        }
     },
-    location: {
-        type: DataTypes.STRING,
+    holidayDate: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    reason: {
+        type: DataTypes.TEXT,
         allowNull: false
     },
     createdAt: {
@@ -41,17 +49,17 @@ Center.init({
         allowNull: true,
         defaultValue: null,
     }
-},{
+}, {
     sequelize: sequelize,
-    tableName: "centers",
+    tableName: "center_holidays",
     timestamps: true,
     underscored: true,
     paranoid: true,
-})
+});
 
-Center.hasMany(CenterHoliday,{
+CenterHoliday.belongsTo(Center,{
     foreignKey: 'centerId',
-    as: 'center_holidays'
+    as: 'center'
 })
 
-export default Center;
+export default CenterHoliday;
