@@ -21,7 +21,6 @@ export const createCenterHoliday = async (holiday: createHolidayDto) => {
 
 export const destroyCenterHoliday = async (holidayId: number) => {
     try {
-
         const deletedCenter = await CenterHoliday.destroy({
             where: {
                 id: holidayId

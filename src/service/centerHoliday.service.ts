@@ -10,9 +10,9 @@ export const createCenterHolidayService = async (holiday: createHolidayDto) => {
     }
 }
 
-export const destroyCenterHolidayService = async (centerId: number) => {
+export const destroyCenterHolidayService = async (holidayId: number) => {
     try {
-        await destroyCenterHoliday(centerId);
+        await destroyCenterHoliday(holidayId);
     } catch (error) {
         throw error
     }
