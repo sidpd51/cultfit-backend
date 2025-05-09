@@ -97,4 +97,11 @@ User.beforeCreate(async (user) => {
     user.password = encryptedPassword;
 })
 
+User.beforeUpdate(async (user) => {
+    if (user.password) {
+        const encryptedPassword = await bcrypt.hash(user.password, dbConfig.SALT);
+        user.password = encryptedPassword;
+    }
+})
+
 export default User;

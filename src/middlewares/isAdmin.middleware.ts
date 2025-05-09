@@ -9,7 +9,6 @@ export const isAdmin = async (req: Request, res: Response, next: NextFunction) =
         const email = Array.isArray(rawEmail) ? rawEmail[0] : rawEmail;
 
         const result = await isAdminService(email);
-        console.log(result)
         if (result) {
             next()
         } else {

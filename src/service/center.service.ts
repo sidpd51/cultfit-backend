@@ -12,7 +12,7 @@ export const createCenterService = async (user: createCenterDto) => {
 
 export const updateCenterService = async (centerId: number, payload: udpateCenterDto) => {
     try {
-        const updatedCenter = await updateCenter(centerId, payload)
+        const updatedCenter = await updateCenter(centerId, payload);
         return updatedCenter;
     } catch (error) {
         throw error

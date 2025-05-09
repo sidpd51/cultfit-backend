@@ -1,9 +1,10 @@
 import { dbConfig } from "../config";
 import { createUserDto, signInDto } from "../dto/user.dto";
-import { createUser, destroyUser, getUserByEmail } from "../repositories/user.repository";
+import { createUser, destroyUser, getUserByEmail, updateUser } from "../repositories/user.repository";
 import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import { InternalServerError, UnauthorizedError } from "../utils/errors/app.error";
 import bcrypt from 'bcrypt';
+import { udpateCenterDto } from "../dto/center.dto";
 
 export const createUserService = async (user: createUserDto) => {
     try {
@@ -11,6 +12,15 @@ export const createUserService = async (user: createUserDto) => {
         return newUser;
     } catch (error) {
         throw error
+    }
+}
+
+export const updateUserService = async (userId: number, user: udpateCenterDto) => {
+    try {
+        const updatedUser = await updateUser(userId, user);
+        return updatedUser;
+    } catch (error) {
+        throw error;
     }
 }
 

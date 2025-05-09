@@ -44,7 +44,7 @@ export const updateCenter = async (centerId: number, payload: udpateCenterDto) =
             where: {
                 id: centerId
             }
-        })
+        });
         return updatedCenter;
     } catch (error) {
         if (error instanceof ValidationError) {

@@ -1,7 +1,6 @@
 import express from 'express';
 import { serverConfig } from './config';
 import { logger } from './config/logger.config';
-import Center from './db/models/center';
 import sequelize from './db/models/sequelize';
 import { attachCorrelationIdMiddleware } from './middlewares/correlation.middleware';
 import { appErrorHandler } from './middlewares/error.middleware';
@@ -21,7 +20,6 @@ app.use(appErrorHandler);
 
 app.listen(PORT, async () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-    await Center.truncate();
     await sequelize.authenticate();
     logger.info('Database connection has been established successfully!');
 })
