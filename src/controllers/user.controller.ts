@@ -12,7 +12,7 @@ export const getAllUsersHandler = (req: Request, res: Response, next: NextFuncti
             message: "get all users controller response",
         });
     } catch (error) {
-        
+
     }
 }
 
@@ -26,14 +26,22 @@ export const createUserHandler = async (req: Request, res: Response, next: NextF
         });
 
     } catch (error) {
-        if (error instanceof InternalServerError) {
-            logger.error(`Error in create user controller, ${error.message}`);
+        if (error instanceof BadRequestError) {
+            logger.error(`Error in createCenterHandler, ${error.message}`);
             res.status(error.statusCode).json({
                 message: error.message,
                 success: false,
                 data: {}
             });
-        }
+        };
+        if (error instanceof InternalServerError) {
+            logger.error(`Error in createUserHandler, ${error.message}`);
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        };
     }
 }
 

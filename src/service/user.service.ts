@@ -25,7 +25,7 @@ export const destroyUserService = async (userId: number) => {
 const createToken = async (user: signInDto) => {
     try {
         const token = jwt.sign(user, dbConfig.JWT_KEY, {
-            expiresIn: 3306
+            expiresIn: '1h'
         });
         return token;
     } catch (error) {

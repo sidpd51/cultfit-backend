@@ -1,12 +1,21 @@
+import { UniqueConstraintError, ValidationError } from "sequelize";
 import User from "../db/models/user";
 import { createUserDto } from "../dto/user.dto";
-import { InternalServerError, NotFoundError } from "../utils/errors/app.error";
+import { BadRequestError, InternalServerError, NotFoundError } from "../utils/errors/app.error";
 
 export const createUser = async (user: createUserDto) => {
     try {
         const newUser = await User.create(user);
-        return newUser;
+        const { password, ...withNoPassword } = newUser.dataValues;
+        return withNoPassword;
     } catch (error) {
+        if (error instanceof UniqueConstraintError) {
+            throw new BadRequestError("A user with same email exist.")
+        }
+        if (error instanceof ValidationError) {
+            const messages = error.errors.map((err) => err.message.split('.')[1]);
+            throw new BadRequestError(messages.join(", "));
+        }
         throw new InternalServerError("Error creating user");
     }
 }
@@ -39,7 +48,7 @@ export const getUserByEmail = async (email: string) => {
         }
         return user;
     } catch (error) {
-        if(error instanceof NotFoundError){
+        if (error instanceof NotFoundError) {
             throw error;
         }
         throw new InternalServerError("Something went wrong while getting user")
