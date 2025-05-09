@@ -1,4 +1,3 @@
-import Center from "../db/models/center";
 import { createCenterDto, udpateCenterDto } from "../dto/center.dto";
 import { createCenter, destroyCenter, getAllCenters, getCenterById, updateCenter } from "../repositories/center.repository";
 
@@ -42,6 +41,6 @@ export const getAllCentersService = async () => {
         const centers = await getAllCenters();
         return centers;
     } catch (error) {
-        throw Center;
+        throw error;
     }
 }
