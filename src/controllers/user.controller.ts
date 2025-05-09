@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { logger } from "../config/logger.config";
-import { createUserService, destroyUserService, signInService } from "../service/user.service";
+import { createUserService, destroyUserService, signInService, updateUserService } from "../service/user.service";
 import { BadRequestError, InternalServerError, NotFoundError, UnauthorizedError } from "../utils/errors/app.error";
 
 export const getAllUsersHandler = (req: Request, res: Response, next: NextFunction) => {
@@ -45,11 +45,43 @@ export const createUserHandler = async (req: Request, res: Response, next: NextF
     }
 }
 
-export const updateUserHandler = (req: Request, res: Response, next: NextFunction) => {
-    res.status(StatusCodes.OK).json({
-        message: "update user controller response",
-        data: req.body
-    });
+export const updateUserHandler = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId: number = Number(req.params.id);
+        const updatedUser = await updateUserService(userId, req.body);
+
+        res.status(StatusCodes.OK).json({
+            message: "User udpated successfully.",
+            success: true,
+            data: updatedUser
+        });
+    } catch (error) {
+        if (error instanceof BadRequestError) {
+            logger.error(`Error in updateUserHandler, ${error.message}`);
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        }
+        if (error instanceof InternalServerError) {
+            logger.error(`Error in updateUserHandler, ${error.message}`);
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        }
+        if (error instanceof NotFoundError) {
+            logger.error(`Error in updateUserHandler, ${error.message}`);
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        }
+    }
+
 }
 
 export const destroyUserHandler = async (req: Request, res: Response, next: NextFunction) => {
