@@ -1,23 +1,21 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import sequelize from "./sequelize";
 
-class Center extends Model<InferAttributes<Center>, InferCreationAttributes<Center>> {
+class WeekDay extends Model<InferAttributes<WeekDay>, InferCreationAttributes<WeekDay>> {
     declare id: CreationOptional<number>;
     declare name: string;
-    declare location: string;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
     declare deletedAt: CreationOptional<Date>;
 
-    static associate(models: any){
-        Center.hasMany(models.CenterHoliday,{
-            foreignKey: 'centerId',
-            as: 'center_holidays'
-        })
+    static associate(models: any) {
+        WeekDay.belongsToMany(models.WeekDay,
+            { through: 'class_schedule_week_days' }
+        )
     }
 }
 
-Center.init({
+WeekDay.init({
     id: {
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
@@ -27,10 +25,6 @@ Center.init({
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
-    },
-    location: {
-        type: DataTypes.STRING,
-        allowNull: false
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -47,14 +41,12 @@ Center.init({
         allowNull: true,
         defaultValue: null,
     }
-},{
+}, {
     sequelize: sequelize,
-    tableName: "centers",
+    tableName: "weekdays",
     timestamps: true,
     underscored: true,
     paranoid: true,
-});
+})
 
-
-
-export default Center;
+export default WeekDay;
