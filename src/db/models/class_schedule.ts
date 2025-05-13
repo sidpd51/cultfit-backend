@@ -16,7 +16,9 @@ class ClassSchedule extends Model<InferAttributes<ClassSchedule>, InferCreationA
 
     static associate(models: any) {
         ClassSchedule.belongsToMany(models.Day, {
-            through: 'day_class_schedules'
+            through: 'day_class_schedules',
+            foreignKey: 'class_schedule_id',
+            otherKey: 'day_id'
         })
 
         ClassSchedule.belongsTo(models.class_types);

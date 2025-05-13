@@ -22,9 +22,10 @@ app.use(appErrorHandler);
 
 app.listen(PORT, async () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-    await sequelize.authenticate();
+    // await sequelize.authenticate();
     await sequelize.sync({ alter: true });
     const classSchedule = await ClassSchedule.findByPk(1);
+    console.log(classSchedule)
     const day = await Day.findOne({ where: { name: 'Monday' } });
     await classSchedule?.addDay(day);
     logger.info('Database connection has been established successfully!');

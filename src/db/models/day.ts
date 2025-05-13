@@ -6,7 +6,9 @@ class Day extends Model<InferAttributes<Day>, InferCreationAttributes<Day>> {
     declare name: string;
     static associate(models: any) {
         Day.belongsToMany(models.ClassSchedule, {
-            through: 'day_class_schedules'
+            through: 'day_class_schedules',
+            foreignKey: 'day_id',
+            otherKey: 'class_schedule_id'
         })
     }
 }
