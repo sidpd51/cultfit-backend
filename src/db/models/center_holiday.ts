@@ -1,6 +1,5 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import sequelize from "./sequelize";
-import Center from "./center";
 
 class CenterHoliday extends Model<InferAttributes<CenterHoliday>, InferCreationAttributes<CenterHoliday>> {
     declare id: CreationOptional<number>;
@@ -12,7 +11,7 @@ class CenterHoliday extends Model<InferAttributes<CenterHoliday>, InferCreationA
     declare deletedAt: CreationOptional<Date>;
 
     static associate(models: any) {
-        CenterHoliday.belongsTo(Center, {
+        CenterHoliday.belongsTo(models.Center, {
             foreignKey: 'centerId',
             as: 'center'
         })

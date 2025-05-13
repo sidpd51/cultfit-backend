@@ -6,7 +6,6 @@ class ClassSchedule extends Model<InferAttributes<ClassSchedule>, InferCreationA
     declare centerId: number;
     declare classTypeId: number;
     declare isRecurring: boolean;
-    declare dayOfWeek: number;
     declare startDate: Date;
     declare endDate: Date;
     declare startTime: Date;
@@ -16,9 +15,11 @@ class ClassSchedule extends Model<InferAttributes<ClassSchedule>, InferCreationA
     declare deletedAt: CreationOptional<Date>;
 
     static associate(models: any) {
-        ClassSchedule.belongsToMany(models.WeekDay,
-            { through: 'class_schedule_week_days' }
-        )
+        ClassSchedule.belongsToMany(models.Day, {
+            through: 'day_class_schedules'
+        })
+
+        ClassSchedule.belongsTo(models.class_types);
     }
 };
 
@@ -40,10 +41,6 @@ ClassSchedule.init({
         type: DataTypes.BOOLEAN,
         allowNull: true,
         defaultValue: false
-    },
-    dayOfWeek: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false
     },
     startDate: {
         type: DataTypes.DATEONLY,

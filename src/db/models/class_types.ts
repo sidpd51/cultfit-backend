@@ -8,6 +8,10 @@ class ClassTypes extends Model<InferAttributes<ClassTypes>, InferCreationAttribu
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
     declare deletedAt: CreationOptional<Date>;
+
+    static associate(models: any) {
+        ClassTypes.hasMany(models.class_schedules);
+    }
 }
 
 
